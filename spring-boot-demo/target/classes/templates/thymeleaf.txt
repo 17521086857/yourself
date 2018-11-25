@@ -1,0 +1,156 @@
+#开发阶段,建议关闭thymeleaf的缓存
+spring.thymeleaf.cache=false
+#使用遗留的html5以去掉对html标签的校验
+spring.thymeleaf.mode=LEGACY HTML5
+
+net.sourceforge.nekohtml:nekohtml
+org.unbescape:unbescape
+html扫描器和标签补全器
+
+@Controller
+@RequestMapping("/") web包
+(Model model)
+model.addAttribute("data","恭喜,Spring boot集成 Thymeleaf 成功!")
+return "index";
+
+templates 下 新建 index.html
+<html xmlns:th="http://ww.thymeleaf.org"> 命名空间
+<p th:text="${data}"><p>
+
+热部署插件  spring-boot-devtools 
+${}标准变量表达式
+*{}选择变量表达式
+@{} URL表达式
+user.setNick("昵称");
+<div th:object="${user}">
+  <p>nick:<span th:text="*{nick}">张</span></p>
+</div>
+<a href="info.html" th:href="@{'http://localhost:8080/user/info?id='+${user.id}}"
+ 
+竖线可以省去拼接
+<a href="info.html" th:href="@{|http://localhost:8080/user/info?id=${user.id}|}"  
+
+server.servlet.context-path=/09-springboot
+
+<a href="info.html" th:href="@{'/user/info?id='+${user.id}}"  ==>
+
+<a href="/09-springboot/user/info?id=1" /> //@{} URL表达式 自动拼接上下文
+
+<form id="login" th:action="@{/boot/login}"></form>  ==>
+<form id="login" action="/09-springboot/boot/login"></form>
+
+<tr th:each="user : ${userlist}">
+ <td th:text="${userStat.count}"></td>
+ <td th:text="${user.id}"></td>
+ <td th:text="${user.nick}"></td>
+</tr>
+ Map 类型的循环 Map<String,User>
+ <div th:each="user:${userMap}">
+   <span th:text="${user.key}"></span>
+   <span th:text="${user.value.nick}"></span>
+   <span th:text="${user.value.address}"></span>
+   </br>
+  </div>
+  数组类型的循环:
+  <div th:each="myArr:${arr}">
+   <span th:text="${myArr}"></span>
+
+  <span th:if="${sex eq 1}">男</sapn>
+  <span th:if="${sex eq 2}">女</sapn>
+  <span th:if="${sex == 2}">女</sapn>
+  
+  else unless
+  <span th:unless="${sex == 2}">女</sapn>
+  
+ <div th:switch="${sex}">
+  <p th:case=1>性别:男</p>
+  <p th:case=2>性别:女</p>
+  <p th:case="*">未知</p>  //"*"表示默认的匹配
+  </div>
+  
+  <script th:src="@{/js/jquery-2.4.js}"></
+  <img th:src="@{/image/log.png}"/>
+  
+  <input type="" th:value="${user.phone}">
+  <input type="" th:attr="value=${user.phone}">
+  
+  
+  <span type="" th:onclick="'cc()'">  注意单引号
+   th:style="'display:none;'"
+  
+  内联文本/内联脚本
+  th:inline 有三个取值类型(text,javascript 和 none)
+  <span th:inline="text">Hello,[[${user.nick}]]</span>
+  等同于
+  <span>Hello,<span th:text="${user.nick}"></span></span>
+  th:inline写在任何父标签都可以
+  <body th:inline="text">
+  ....
+     <span>Hello,[[${user.nick}]]</span>
+   ...
+   </body>
+   
+   内联脚本
+   <script th:inline="javascript" type="text/javascript">
+     var user= [[${user.phone}]]
+	 alert(user);
+   </script>
+  
+    <span type="" th:onclick="'cc()'">  文本字面量
+	<span th:text="1960+58"></span> 数组字面量
+	
+	<p th:if="${isFlag == true}">boolean字面量 true  false </p>
+	
+	<p th:if="${userList == null}"> null <null>
+	
+	字面量拼接
+	<span th:text="'当前是第'+${sex}+'页,共'+${sex}+'页'"></span>
+	另一种更优雅的方式,使用"|"减少了字符串的拼接:
+	<span th:text="|当前是第${sex}页,共${sex}页|"></span>
+    
+    三元运算判断 <span th:text="${sex eq 1}? '男':'女'">未知</span>
+ 
+     运算: + - * / %
+     关系比较: >  <  >=  <= (gt,lt,ge,le)
+     相等判断: == , != (eq,ne)
+
+	 
+	 http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html
+	 
+	 内置对象  ${#request.getContextPath()}   //3.x版本  ; 2.x版本使用 #httpServletRequest
+               ${#request.getAttribute("phone")}
+			
+         ${#session.getAttribute("phone")}
+		 ${#session.id}
+		 ${#session.lastAccessedTime}
+    	 
+   功能型内置对象
+     ${#dates.format(date, 'dd/MMM/yyyy HH:mm')}
+     ${#calendars.arrayFormat(calArray, 'dd/MMM/yyyy HH:mm')}
+
+     ${#numbers.formatDecimal(num,3,2)}
+	 
+	 ${#strings.contains(name,'ez')}                      
+    ${#strings.containsIgnoreCase(name,'ez')}  
+	${#strings.startsWith(name,'Don')}       
+    ${#strings.endsWith(name,endingFragment)}  
+	${#strings.indexOf(name,frag)}                      // also array*, list* and set*
+   ${#strings.substring(name,3,5)}                     // also array*, list* and set*
+   ${#strings.substringAfter(name,prefix)}             // also array*, list* and set*
+   ${#strings.substringBefore(name,suffix)}            // also array*, list* and set*
+   ${#strings.replace(name,'las','ler')}               // also array*, list* and set*
+
+ <dependency> 
+<groupId>net.sourceforge.nekohtml</groupId> 
+<artifactId>nekohtml</artifactId> 
+<version>1.9.22</version> 
+</dependency>
+   
+spring.thymeleaf.content-type: text/html 
+spring.thymeleaf.cache: false 
+spring.thymeleaf.mode: LEGACYHTML5
+
+   
+
+
+

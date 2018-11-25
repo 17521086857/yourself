@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <script th:src="@{/jquery.js}" th:inline="javascript"  type="text/javascript"></script><!--这里的inline没效-->
+    <script type="text/javascript" th:inline="javascript" >
+
+        var a=[[${f}]];
+        function fun(){
+            alert(a);
+        }
+    </script>
+</head>
+<body>
+<h1 th:text="${f}">开始templates</h1>
+我们曾经使用过放需要放在WEB-INF
+<div th:each="user:${users}">
+    <span th:text="${user.id}"></span>
+    <span th:text="${user.name}"></span>
+    <span th:text="${user.nickName}"></span>
+</div>
+<button th:onclick="'fun()'">点击</button>
+<button th:onclick="'fun2()'">点击</button>
+<input>
+</body>
+</html>

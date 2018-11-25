@@ -1,0 +1,9 @@
+CREATE database mll DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;;
+
+USE mll;
+
+CREATE TABLE `user`(
+  `id` VARCHAR (36) PRIMARY KEY NOT NULL,
+  `name` VARCHAR (100),
+  `nick_name` VARCHAR (100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
